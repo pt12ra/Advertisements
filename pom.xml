@@ -6,6 +6,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<properties>
 		<zk.version>8.0.2.2-Eval</zk.version>
+		<flyway.version>4.2.0</flyway.version>
 		<commons-io>2.4</commons-io>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-${project.version}-FL-${maven.build.timestamp}</packname>
@@ -81,13 +82,42 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-			<version>4.2.0</version>
+			<version>${flyway.version}</version>
 		</dependency>
+
 
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
+
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway.version}</version>
+				<configuration>
+					<driver>com.mysql.cj.jdbc.Driver</driver>
+					<url>jdbc:mysql://localhost:3306/advertisements</url>
+					<user>root</user>
+					<password>0000</password>
+					<locations>
+						<location>db/migration</location>
+					</locations>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flyway database migration</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>clean</goal>
+							<goal>baseline</goal>
+							<goal>migrate</goal>
+							<goal>info</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Compile java -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
