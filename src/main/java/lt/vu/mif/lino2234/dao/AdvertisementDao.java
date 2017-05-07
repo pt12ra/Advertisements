@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AdvertisementDao {
 
-    void save(Advertisement entity);
+    Advertisement save(Advertisement entity);
     Advertisement findOne(Long id);
     Advertisement update(Advertisement entity);
     void delete(Long id);

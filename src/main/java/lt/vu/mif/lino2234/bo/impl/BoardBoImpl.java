@@ -1,0 +1,65 @@
+package lt.vu.mif.lino2234.bo.impl;
+
+import lt.vu.mif.lino2234.bo.BoardBo;
+import lt.vu.mif.lino2234.dao.BoardDao;
+import lt.vu.mif.lino2234.entities.Board;
+import lt.vu.mif.lino2234.views.BoardView;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+@Named(value = "boardBo")
+@RequestScoped
+public class BoardBoImpl implements BoardBo {
+
+    @Inject
+    private BoardDao boardDao;
+
+    @Override
+    public BoardView saveToEntity(BoardView view) {
+        Objects.requireNonNull(view, "Object 'view' must not be null");
+
+        Board entity = view.getId() != null ? boardDao.findOne(view.getId()) : new Board();
+        entity.setId(view.getId());
+        entity.setTitle(view.getTitle());
+        entity.setAdvertisements(new ArrayList<>());
+        entity.setSubscribers(new ArrayList<>());
+
+        return buildView(entity.getId() == null ? boardDao.save(entity) : boardDao.update(entity));
+    }
+
+    @Override
+    public BoardView findOne(Long id) {
+        Objects.requireNonNull(id, "Object 'id' must not be null");
+
+        return buildView(boardDao.findOne(id));
+    }
+
+    @Override
+    public void delete(Long id) {
+        Objects.requireNonNull(id, "Object 'id' must not be null");
+
+        boardDao.delete(id);
+    }
+
+    @Override
+    public List<BoardView> getAll() {
+        return boardDao.getAll().stream().map(this::buildView).collect(Collectors.toList());
+    }
+
+    private BoardView buildView (Board entity) {
+        Objects.requireNonNull(entity, "Object 'entity' must not be null");
+
+        BoardView view = new BoardView();
+        view.setId(entity.getId());
+        view.setTitle(entity.getTitle());
+        view.setSubscribers(new ArrayList<>());
+        view.setAdvertisements(new ArrayList<>());
+        return view;
+    }
+}

@@ -19,8 +19,9 @@ public class BoardDaoImpl implements BoardDao {
     private EntityManager em;
 
     @Override
-    public void save(Board entity) {
+    public Board save(Board entity) {
         em.persist(entity);
+        return entity;
     }
 
     @Override

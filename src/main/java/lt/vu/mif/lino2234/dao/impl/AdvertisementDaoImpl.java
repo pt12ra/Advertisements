@@ -17,8 +17,9 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
     private EntityManager em;
 
     @Override
-    public void save(Advertisement entity) {
+    public Advertisement save(Advertisement entity) {
         em.persist(entity);
+        return entity;
     }
 
     @Override

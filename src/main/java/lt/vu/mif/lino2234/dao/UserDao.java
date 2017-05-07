@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserDao {
 
-    void save(User entity);
+    User save(User entity);
     User findOne(Long id);
     User update(User entity);
     void delete(Long id);

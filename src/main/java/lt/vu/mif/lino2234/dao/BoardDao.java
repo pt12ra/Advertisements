@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BoardDao {
 
-    void save(Board entity);
+    Board save(Board entity);
     Board findOne(Long id);
     Board update(Board entity);
     void delete(Long id);
