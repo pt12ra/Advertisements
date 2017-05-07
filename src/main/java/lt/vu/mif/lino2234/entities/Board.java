@@ -8,11 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "BOARDS")
-public class Board {
+public class Board implements Serializable {
+
+    private static final long serialVersionUID = 2853418961665653505L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

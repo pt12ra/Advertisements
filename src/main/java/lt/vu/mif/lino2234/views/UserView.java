@@ -1,56 +1,22 @@
-package lt.vu.mif.lino2234.entities;
+package lt.vu.mif.lino2234.views;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Table(name = "USERS")
-public class User implements Serializable{
+public class UserView implements Serializable {
 
-    private static final long serialVersionUID = -7967676529092213255L;
+    private static final long serialVersionUID = 6421655733488654998L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Long id;
-
-    @Column(name = "USERNAME")
     private String username;
-
-    @Column(name = "NAME")
     private String name;
-
-    @Column(name = "SURNAME")
     private String surname;
-
-    @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
-
-    @Column(name = "EMAIL")
     private String email;
-
-    @Column(name = "REGISTRATION_DATE")
     private LocalDate registrationDate;
-
-    @JoinTable(name = "USERS_BOARDS", joinColumns = {
-            @JoinColumn(name = "USER_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "BOARD_ID", referencedColumnName = "ID")})
-    @ManyToMany
-    private List<Board> subscriptions;
-
-    @OneToMany(mappedBy = "author")
-    private List<Advertisement> advertisements;
+    private List<BoardView> subscriptions;
+    private List<AdvertisementView> advertisements;
 
     public Long getId() {
         return id;
@@ -108,19 +74,19 @@ public class User implements Serializable{
         this.registrationDate = registrationDate;
     }
 
-    public List<Board> getSubscriptions() {
+    public List<BoardView> getSubscriptions() {
         return subscriptions;
     }
 
-    public void setSubscriptions(List<Board> subscriptions) {
+    public void setSubscriptions(List<BoardView> subscriptions) {
         this.subscriptions = subscriptions;
     }
 
-    public List<Advertisement> getAdvertisements() {
+    public List<AdvertisementView> getAdvertisements() {
         return advertisements;
     }
 
-    public void setAdvertisements(List<Advertisement> advertisements) {
+    public void setAdvertisements(List<AdvertisementView> advertisements) {
         this.advertisements = advertisements;
     }
 }
