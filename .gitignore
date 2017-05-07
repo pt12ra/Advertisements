@@ -123,3 +123,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/java,maven,windows,intellij
+/.idea/vcs.xml
