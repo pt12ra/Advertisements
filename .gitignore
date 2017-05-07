@@ -124,3 +124,5 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/java,maven,windows,intellij
 /.idea/vcs.xml
+/advertisements.iml
+/.idea/artifacts/advertisements_war_exploded.xml

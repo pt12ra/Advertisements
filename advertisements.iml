@@ -64,5 +64,7 @@
     <orderEntry type="library" name="Maven: org.zkoss.zk:zhtml:8.0.2.2-Eval" level="project" />
     <orderEntry type="library" name="Maven: org.zkoss:zsoup:1.8.2.5" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:6.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.flywaydb:flyway-core:4.2.0" level="project" />
   </component>
 </module>

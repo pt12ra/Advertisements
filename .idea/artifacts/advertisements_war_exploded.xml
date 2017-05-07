@@ -50,6 +50,8 @@
           <element id="library" level="project" name="Maven: org.zkoss.zk:zhtml:8.0.2.2-Eval" />
           <element id="library" level="project" name="Maven: org.zkoss:zsoup:1.8.2.5" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:6.0.6" />
+          <element id="library" level="project" name="Maven: org.flywaydb:flyway-core:4.2.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
