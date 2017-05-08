@@ -1,8 +1,11 @@
 package lt.vu.mif.lino2234.bo.impl;
 
+import lt.vu.mif.lino2234.bo.BoardBo;
 import lt.vu.mif.lino2234.bo.UserBo;
+import lt.vu.mif.lino2234.dao.BoardDao;
 import lt.vu.mif.lino2234.dao.UserDao;
 import lt.vu.mif.lino2234.entities.User;
+import lt.vu.mif.lino2234.views.BoardView;
 import lt.vu.mif.lino2234.views.UserView;
 
 import javax.enterprise.context.SessionScoped;
@@ -22,6 +25,10 @@ public class UserBoImpl implements UserBo, Serializable{
 
     @Inject
     private UserDao userDao;
+    @Inject
+    private BoardBo boardBo;
+    @Inject
+    private BoardDao boardDao;
 
     @Override
     @Transactional
@@ -36,7 +43,10 @@ public class UserBoImpl implements UserBo, Serializable{
         entity.setPhoneNumber(view.getPhoneNumber());
         entity.setEmail(view.getEmail());
         entity.setRegistrationDate(view.getRegistrationDate() != null ? view.getRegistrationDate() : LocalDate.now());
-        entity.setSubscriptions(new ArrayList<>());
+        entity.getSubscriptions().clear();
+        for(BoardView boardView : view.getSubscriptions()) {
+            entity.getSubscriptions().add(boardDao.findOne(boardView.getId()));
+        }
         entity.setAdvertisements(new ArrayList<>());
         return buildView(entity.getId() == null ? userDao.save(entity) : userDao.update(entity));
     }
@@ -74,7 +84,7 @@ public class UserBoImpl implements UserBo, Serializable{
         view.setPhoneNumber(entity.getPhoneNumber());
         view.setEmail(entity.getEmail());
         view.setRegistrationDate(entity.getRegistrationDate() != null ? view.getRegistrationDate() : LocalDate.now());
-        view.setSubscriptions(new ArrayList<>());
+        view.setSubscriptions(boardBo.getAllByUserId(view.getId()));
         view.setAdvertisements(new ArrayList<>());
         return view;
     }

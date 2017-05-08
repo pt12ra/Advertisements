@@ -10,4 +10,5 @@ public interface BoardBo {
     BoardView findOne(Long id);
     void delete(Long id);
     List<BoardView> getAll();
+    List<BoardView> getAllByUserId(Long userId);
 }

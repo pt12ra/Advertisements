@@ -62,4 +62,19 @@ public class Board implements Serializable {
     public void setAdvertisements(List<Advertisement> advertisements) {
         this.advertisements = advertisements;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Board board = (Board) o;
+
+        return title != null ? title.equals(board.title) : board.title == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return title != null ? title.hashCode() : 0;
+    }
 }

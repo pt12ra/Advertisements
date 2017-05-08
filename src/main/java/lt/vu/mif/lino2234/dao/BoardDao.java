@@ -11,4 +11,5 @@ public interface BoardDao {
     Board update(Board entity);
     void delete(Long id);
     List<Board> getAll();
+    List<Board> getAllByUserId(Long userId);
 }

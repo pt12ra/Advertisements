@@ -1,0 +1,70 @@
+<?variable-resolver class="org.zkoss.zkplus.cdi.DelegatingVariableResolver"?>
+<?link  rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css"?>
+<?script type="text/javascript" src="resources/bootstrap/js/bootstrap.js"?>
+
+<zk xmlns:xh="xhtml" xmlns:sh="shadow">
+  <xh:div xmlns:n="native" viewModel="@id('vm') @init('lt.vu.mif.lino2234.viewModels.BoardsVm')"
+          form="@id('user') @load(vm.user) @save(vm.user, before='doSave')" >
+    <xh:div sclass="container">
+      <n:h1>User subscriptions</n:h1>
+      <xh:div sclass="row">
+        <grid>
+          <columns>
+            <column label="Subcribed boards" />
+          </columns>
+          <rows>
+            <sh:forEach items="@load(vm.user.subscriptions)" var="board">
+              <row>
+                <label value="@load(board.title)" />
+              </row>
+            </sh:forEach>
+          </rows>
+        </grid>
+        <button label="View more boards" onClick="@command('doToggleBoardsVisibility')"
+                width="150px" height="30px" />
+      </xh:div>
+        <sh:if test="@load(vm.boardsVisible)">
+          <xh:div sclass="row">
+            <grid>
+              <columns>
+                <column label="Available boards" />
+                <column/>
+              </columns>
+              <rows>
+                <sh:forEach items="@load(vm.boards)" var="board">
+                  <row>
+                    <label value="@load(board.title)" />
+                    <button label="Subscribe" onClick="@command('doSubscribe', board=board)"
+                            width="150px" height="30px" />
+                  </row>
+                </sh:forEach>
+              </rows>
+            </grid>
+            <button label="Create new board" onClick="@command('doAdd')"
+                    width="150px" height="30px" />
+          </xh:div>
+          <sh:if test="@load(vm.adding)">
+            <xh:div sclass="row">
+              <grid width="50%" form="@id('board') @load(vm.newBoard) @save(vm.newBoard, before='doSave')">
+                <columns>
+                  <column label="Property" />
+                  <column label="Value" />
+                </columns>
+                <rows>
+                  <row>
+                    <label value="Title" width="150px" />
+                    <hlayout>
+                      <textbox value="@bind(board.title)"
+                               width="150px"/>
+                    </hlayout>
+                  </row>
+                </rows>
+              </grid>
+              <button label="Submit" onClick="@command('doSave')"
+                      width="100px" height="30px" />
+            </xh:div>
+          </sh:if>
+        </sh:if>
+    </xh:div>
+  </xh:div>
+</zk>

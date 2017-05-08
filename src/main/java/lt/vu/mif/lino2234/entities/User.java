@@ -123,4 +123,19 @@ public class User implements Serializable{
     public void setAdvertisements(List<Advertisement> advertisements) {
         this.advertisements = advertisements;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return username != null ? username.equals(user.username) : user.username == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return username != null ? username.hashCode() : 0;
+    }
 }

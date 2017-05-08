@@ -2,8 +2,10 @@ package lt.vu.mif.lino2234.bo.impl;
 
 import lt.vu.mif.lino2234.bo.BoardBo;
 import lt.vu.mif.lino2234.dao.BoardDao;
+import lt.vu.mif.lino2234.dao.UserDao;
 import lt.vu.mif.lino2234.entities.Board;
 import lt.vu.mif.lino2234.views.BoardView;
+import lt.vu.mif.lino2234.views.UserView;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,6 +22,8 @@ public class BoardBoImpl implements BoardBo {
 
     @Inject
     private BoardDao boardDao;
+    @Inject
+    private UserDao userDao;
 
     @Override
     @Transactional
@@ -31,6 +35,11 @@ public class BoardBoImpl implements BoardBo {
         entity.setTitle(view.getTitle());
         entity.setAdvertisements(new ArrayList<>());
         entity.setSubscribers(new ArrayList<>());
+        if (view.getSubscribers() != null) {
+            for(UserView userView : view.getSubscribers()) {
+                entity.getSubscribers().add(userDao.findOne(userView.getId()));
+            }
+        }
 
         return buildView(entity.getId() == null ? boardDao.save(entity) : boardDao.update(entity));
     }
@@ -55,6 +64,14 @@ public class BoardBoImpl implements BoardBo {
     @Transactional
     public List<BoardView> getAll() {
         return boardDao.getAll().stream().map(this::buildView).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<BoardView> getAllByUserId(Long userId) {
+        Objects.requireNonNull(userId, "Object 'userId' must not be null");
+
+        return boardDao.getAllByUserId(userId).stream().map(this::buildView).collect(Collectors.toList());
     }
 
     private BoardView buildView (Board entity) {

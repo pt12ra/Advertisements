@@ -1,0 +1,84 @@
+<?variable-resolver class="org.zkoss.zkplus.cdi.DelegatingVariableResolver"?>
+<?link  rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css"?>
+<?script type="text/javascript" src="resources/bootstrap/js/bootstrap.js"?>
+
+<zk xmlns:xh="xhtml" xmlns:sh="shadow">
+  <xh:div xmlns:n="native" viewModel="@id('vm') @init('lt.vu.mif.lino2234.viewModels.UsersVm')"
+          form="@id('user') @load(vm.user) @save(vm.user, before='doSave')" >
+    <xh:div sclass="container">
+      <n:h1>User input</n:h1>
+      <xh:div sclass="row">
+        <grid>
+          <columns>
+            <column label="Username" />
+            <column label="Email" />
+          </columns>
+          <rows>
+            <sh:forEach items="@load(vm.users)" var="user">
+              <row onClick="@command('doView', user=user)">
+                <label value="@load(user.username)" />
+                <label value="@load(user.email)" />
+              </row>
+            </sh:forEach>
+          </rows>
+        </grid>
+        <button label="Add" onClick="@command('doAdd')"
+                width="100px" height="30px" />
+      </xh:div>
+      <sh:if test="@load(vm.adding)">
+        <xh:div sclass="row">
+          <grid width="50%">
+            <auxhead>
+              <auxheader label="New user info" colspan="2"/>
+            </auxhead>
+            <columns>
+              <column label="Property" />
+              <column label="Value" />
+            </columns>
+            <rows>
+              <row>
+                <label value="Username" width="150px" />
+                <hlayout>
+                  <textbox value="@bind(user.username)"
+                           width="150px"/>
+                </hlayout>
+              </row>
+              <row>
+                <label value="Name" width="150px" />
+                <hlayout>
+                  <textbox value="@bind(user.name)"
+                           width="150px" />
+                </hlayout>
+              </row>
+              <row>
+                <label value="Surname" width="150px" />
+                <hlayout>
+                  <textbox value="@bind(user.surname)"
+                           width="150px" />
+                </hlayout>
+              </row>
+              <row>
+                <label value="Phone number" width="150px" />
+                <hlayout>
+                  <textbox value="@bind(user.phoneNumber)"
+                           width="150px" />
+                </hlayout>
+              </row>
+              <row>
+                <label value="Email" width="150px" />
+                <hlayout>
+                  <textbox value="@bind(user.email)"
+                           width="150px"/>
+                </hlayout>
+              </row>
+              <row>
+              </row>
+            </rows>
+          </grid>
+          <button label="Submit" onClick="@command('doSave')"
+                  width="100px" height="30px" />
+        </xh:div>
+      </sh:if>
+    </xh:div>
+  </xh:div>
+</zk>
