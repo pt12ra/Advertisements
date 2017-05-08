@@ -8,6 +8,7 @@ import lt.vu.mif.lino2234.views.BoardView;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,7 @@ public class BoardBoImpl implements BoardBo {
     private BoardDao boardDao;
 
     @Override
+    @Transactional
     public BoardView saveToEntity(BoardView view) {
         Objects.requireNonNull(view, "Object 'view' must not be null");
 
@@ -34,6 +36,7 @@ public class BoardBoImpl implements BoardBo {
     }
 
     @Override
+    @Transactional
     public BoardView findOne(Long id) {
         Objects.requireNonNull(id, "Object 'id' must not be null");
 
@@ -41,6 +44,7 @@ public class BoardBoImpl implements BoardBo {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Objects.requireNonNull(id, "Object 'id' must not be null");
 
@@ -48,6 +52,7 @@ public class BoardBoImpl implements BoardBo {
     }
 
     @Override
+    @Transactional
     public List<BoardView> getAll() {
         return boardDao.getAll().stream().map(this::buildView).collect(Collectors.toList());
     }

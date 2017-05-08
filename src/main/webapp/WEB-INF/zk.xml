@@ -9,5 +9,8 @@
 		<value>advertisements</value>
 	</preference>
 	-->
-	
+	<library-property>
+		<name>org.zkoss.zkplus.cdi.beanManager.jndiName</name>
+		<value>java:comp/env/BeanManager</value>
+	</library-property>
 </zk>

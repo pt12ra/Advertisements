@@ -10,6 +10,7 @@ import lt.vu.mif.lino2234.views.AdvertisementView;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +29,7 @@ public class AdvertisementBoImpl implements AdvertisementBo {
     private BoardBo boardBo;
 
     @Override
+    @Transactional
     public AdvertisementView saveToEntity(AdvertisementView view) {
         Objects.requireNonNull(view, "Object 'view' must not be null");
 
@@ -41,6 +43,7 @@ public class AdvertisementBoImpl implements AdvertisementBo {
     }
 
     @Override
+    @Transactional
     public AdvertisementView findOne(Long id) {
         Objects.requireNonNull(id, "Object 'id' must not be null");
 
@@ -48,6 +51,7 @@ public class AdvertisementBoImpl implements AdvertisementBo {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Objects.requireNonNull(id, "Object 'id' must not be null");
 
@@ -55,6 +59,7 @@ public class AdvertisementBoImpl implements AdvertisementBo {
     }
 
     @Override
+    @Transactional
     public List<AdvertisementView> getAll() {
         return advertisementDao.getAll().stream().map(this::buildView).collect(Collectors.toList());
     }

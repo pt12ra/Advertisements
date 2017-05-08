@@ -3,7 +3,9 @@ package lt.vu.mif.lino2234.dao.impl;
 import lt.vu.mif.lino2234.dao.AdvertisementDao;
 import lt.vu.mif.lino2234.entities.Advertisement;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,6 +13,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+@ApplicationScoped
+@Named(value = "advertisementDao")
 public class AdvertisementDaoImpl implements AdvertisementDao {
 
     @Inject

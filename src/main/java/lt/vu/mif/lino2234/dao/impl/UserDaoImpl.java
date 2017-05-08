@@ -5,6 +5,7 @@ import lt.vu.mif.lino2234.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,6 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @ApplicationScoped
+@Named(value = "userDao")
 public class UserDaoImpl implements UserDao {
 
     @Inject

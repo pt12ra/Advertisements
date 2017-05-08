@@ -1,8 +1,54 @@
-<zk>
-	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('lt.vu.mif.lino2234.MyViewModel')"
-		validationMessages="@id('vmsgs')">
-		<hlayout>count: <label value="@load(vm.count)" /></hlayout>
-		<button label="add" onClick="@command('cmd')"/>
-	</window>
+<?variable-resolver class="org.zkoss.zkplus.cdi.DelegatingVariableResolver"?>
+<zk xmlns:xh="xhtml" xmlns:sh="shadow">
+  <xh:div xmlns:n="native" viewModel="@id('vm') @init('lt.vu.mif.lino2234.MyViewModel')"
+          form="@id('user') @load(vm.user) @save(vm.user, before='doSave')" >
+    <grid>
+      <rows>
+        <row>
+          <label value="Username" width="150px" />
+          <hlayout>
+            <textbox value="@bind(user.username)"
+                     width="150px"/>
+          </hlayout>
+        </row>
+        <row>
+          <label value="Name" width="150px" />
+          <hlayout>
+            <textbox value="@bind(user.name)"
+                     width="150px" />
+          </hlayout>
+        </row>
+        <row>
+          <label value="Surname" width="150px" />
+          <hlayout>
+            <textbox value="@bind(user.surname)"
+                     width="150px" />
+          </hlayout>
+        </row>
+        <row>
+          <label value="Phone number" width="150px" />
+          <hlayout>
+            <textbox value="@bind(user.phoneNumber)"
+                     width="150px" />
+          </hlayout>
+        </row>
+        <row>
+          <label value="Email" width="150px" />
+          <hlayout>
+            <textbox value="@bind(user.email)"
+                     width="150px"/>
+          </hlayout>
+        </row>
+        <row>
+          <cell colspan="2" style="text-align:center">
+            <vlayout>
+              <button label="Submit" onClick="@command('doSave')"
+                      width="100px" height="30px" />
+            </vlayout>
+          </cell>
+        </row>
+      </rows>
+    </grid>
+
+  </xh:div>
 </zk>
