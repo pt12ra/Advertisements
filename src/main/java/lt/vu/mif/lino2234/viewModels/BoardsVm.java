@@ -71,6 +71,13 @@ public class BoardsVm {
         }
     }
 
+    @Command
+    public void doView(@BindingParam("board") BoardView board ) {
+        Executions.getCurrent().setAttribute("pid", user.getId());
+        Executions.getCurrent().sendRedirect(String.format("/advertisements.zul?uid=%s&bid=%s", user.getId().toString(), board.getId().toString()));
+    }
+
+
     public UserView getUser() {
         return user;
     }

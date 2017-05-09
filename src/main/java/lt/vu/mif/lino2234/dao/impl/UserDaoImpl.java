@@ -1,6 +1,9 @@
 package lt.vu.mif.lino2234.dao.impl;
 
 import lt.vu.mif.lino2234.dao.UserDao;
+import lt.vu.mif.lino2234.entities.Advertisement;
+import lt.vu.mif.lino2234.entities.Board;
+import lt.vu.mif.lino2234.entities.Board_;
 import lt.vu.mif.lino2234.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -10,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -48,6 +52,18 @@ public class UserDaoImpl implements UserDao {
         CriteriaQuery<User> cq = cb.createQuery(User.class);
         Root<User> root = cq.from(User.class);
         CriteriaQuery<User> all = cq.select(root);
+        TypedQuery<User> query = em.createQuery(all);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<User> getAllByBoardId(Long boardId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<Board> root = cq.from(Board.class);
+        cq.where(cb.equal(root.get(Board_.id), boardId));
+        Join<Board, User> boardUserJoin = root.join(Board_.subscribers);
+        CriteriaQuery<User> all = cq.select(boardUserJoin);
         TypedQuery<User> query = em.createQuery(all);
         return query.getResultList();
     }

@@ -10,4 +10,7 @@ public interface AdvertisementBo {
     AdvertisementView findOne(Long id);
     void delete(Long id);
     List<AdvertisementView> getAll();
+    List<AdvertisementView> getAllByBoardId(Long boardId);
+    List<AdvertisementView> getAllByUserId(Long userId);
+    List<AdvertisementView> getAllByBoardUser(Long boardId, Long userId);
 }

@@ -14,7 +14,7 @@
           </columns>
           <rows>
             <sh:forEach items="@load(vm.user.subscriptions)" var="board">
-              <row>
+              <row onClick="@command('doView', board=board)">
                 <label value="@load(board.title)" />
               </row>
             </sh:forEach>
@@ -55,7 +55,7 @@
                     <label value="Title" width="150px" />
                     <hlayout>
                       <textbox value="@bind(board.title)"
-                               width="150px"/>
+                               width="150px" constraint="no empty"/>
                     </hlayout>
                   </row>
                 </rows>

@@ -1,10 +1,13 @@
 package lt.vu.mif.lino2234.bo.impl;
 
+import lt.vu.mif.lino2234.bo.AdvertisementBo;
 import lt.vu.mif.lino2234.bo.BoardBo;
 import lt.vu.mif.lino2234.bo.UserBo;
+import lt.vu.mif.lino2234.dao.AdvertisementDao;
 import lt.vu.mif.lino2234.dao.BoardDao;
 import lt.vu.mif.lino2234.dao.UserDao;
 import lt.vu.mif.lino2234.entities.User;
+import lt.vu.mif.lino2234.views.AdvertisementView;
 import lt.vu.mif.lino2234.views.BoardView;
 import lt.vu.mif.lino2234.views.UserView;
 
@@ -26,9 +29,13 @@ public class UserBoImpl implements UserBo, Serializable{
     @Inject
     private UserDao userDao;
     @Inject
+    private BoardDao boardDao;
+    @Inject
+    private AdvertisementDao advertisementDao;
+    @Inject
     private BoardBo boardBo;
     @Inject
-    private BoardDao boardDao;
+    private AdvertisementBo advertisementBo;
 
     @Override
     @Transactional
@@ -43,11 +50,23 @@ public class UserBoImpl implements UserBo, Serializable{
         entity.setPhoneNumber(view.getPhoneNumber());
         entity.setEmail(view.getEmail());
         entity.setRegistrationDate(view.getRegistrationDate() != null ? view.getRegistrationDate() : LocalDate.now());
-        entity.getSubscriptions().clear();
-        for(BoardView boardView : view.getSubscriptions()) {
-            entity.getSubscriptions().add(boardDao.findOne(boardView.getId()));
+        if (entity.getSubscriptions() == null) {
+            entity.setSubscriptions(new ArrayList<>());
+        } else {
+            entity.getSubscriptions().clear();
+            for(BoardView boardView : view.getSubscriptions()) {
+                entity.getSubscriptions().add(boardDao.findOne(boardView.getId()));
+            }
         }
-        entity.setAdvertisements(new ArrayList<>());
+        if (entity.getAdvertisements() == null) {
+            entity.setAdvertisements(new ArrayList<>());
+        } else {
+            entity.getAdvertisements().clear();
+            for(AdvertisementView advertisementView : view.getAdvertisements()) {
+                entity.getAdvertisements().add(advertisementDao.findOne(advertisementView.getId()));
+            }
+        }
+
         return buildView(entity.getId() == null ? userDao.save(entity) : userDao.update(entity));
     }
 
@@ -71,6 +90,14 @@ public class UserBoImpl implements UserBo, Serializable{
     @Transactional
     public List<UserView> getAll() {
         return userDao.getAll().stream().map(this::buildView).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<UserView> getAllByBoardId(Long boardId) {
+        Objects.requireNonNull(boardId, "Object 'boardId' must not be null");
+
+        return userDao.getAllByBoardId(boardId).stream().map(this::buildView).collect(Collectors.toList());
     }
 
     private UserView buildView (User entity) {

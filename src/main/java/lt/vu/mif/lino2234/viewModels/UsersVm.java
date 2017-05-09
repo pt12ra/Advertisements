@@ -46,7 +46,6 @@ public class UsersVm {
 
 	@Command
 	public void doView(@BindingParam("user") UserView user ) {
-		Executions.getCurrent().setAttribute("pid", user.getId());
 		Executions.getCurrent().sendRedirect(String.format("/boards.zul?uid=%s", user.getId().toString()));
 	}
 

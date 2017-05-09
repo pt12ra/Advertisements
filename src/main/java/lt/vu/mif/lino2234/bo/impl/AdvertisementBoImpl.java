@@ -4,6 +4,8 @@ import lt.vu.mif.lino2234.bo.AdvertisementBo;
 import lt.vu.mif.lino2234.bo.BoardBo;
 import lt.vu.mif.lino2234.bo.UserBo;
 import lt.vu.mif.lino2234.dao.AdvertisementDao;
+import lt.vu.mif.lino2234.dao.BoardDao;
+import lt.vu.mif.lino2234.dao.UserDao;
 import lt.vu.mif.lino2234.entities.Advertisement;
 import lt.vu.mif.lino2234.views.AdvertisementView;
 
@@ -27,6 +29,10 @@ public class AdvertisementBoImpl implements AdvertisementBo {
     private UserBo userBo;
     @Inject
     private BoardBo boardBo;
+    @Inject
+    private UserDao userDao;
+    @Inject
+    private BoardDao boardDao;
 
     @Override
     @Transactional
@@ -36,6 +42,8 @@ public class AdvertisementBoImpl implements AdvertisementBo {
         Advertisement entity = view.getId() != null ? advertisementDao.findOne(view.getId()) : new Advertisement();
         entity.setId(view.getId());
         entity.setTitle(view.getTitle());
+        entity.setAuthor(userDao.findOne(view.getAuthor().getId()));
+        entity.setBoard(boardDao.findOne(view.getBoard().getId()));
         entity.setDescription(view.getDescription());
         entity.setPrice(new BigDecimal(view.getPrice()));
         entity.setPublicationTime(view.getPublicationTime() != null ? LocalDateTime.parse(view.getPublicationTime()) : LocalDateTime.now());
@@ -62,6 +70,31 @@ public class AdvertisementBoImpl implements AdvertisementBo {
     @Transactional
     public List<AdvertisementView> getAll() {
         return advertisementDao.getAll().stream().map(this::buildView).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<AdvertisementView> getAllByBoardId(Long boardId) {
+        Objects.requireNonNull(boardId, "Object 'boardId' must not be null");
+
+        return advertisementDao.getAllByBoardId(boardId).stream().map(this::buildView).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<AdvertisementView> getAllByUserId(Long userId) {
+        Objects.requireNonNull(userId, "Object 'userId' must not be null");
+
+        return advertisementDao.getAllByUserId(userId).stream().map(this::buildView).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<AdvertisementView> getAllByBoardUser(Long boardId, Long userId) {
+        Objects.requireNonNull(boardId, "Object 'boardId' must not be null");
+        Objects.requireNonNull(userId, "Object 'userId' must not be null");
+
+        return advertisementDao.getAllByBoardUser(boardId, userId).stream().map(this::buildView).collect(Collectors.toList());
     }
 
     private AdvertisementView buildView (Advertisement entity) {

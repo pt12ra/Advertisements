@@ -1,0 +1,98 @@
+<?variable-resolver class="org.zkoss.zkplus.cdi.DelegatingVariableResolver"?>
+<?link  rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css"?>
+<?script type="text/javascript" src="resources/bootstrap/js/bootstrap.js"?>
+
+<zk xmlns:xh="xhtml" xmlns:sh="shadow">
+  <xh:div xmlns:n="native" viewModel="@id('vm') @init('lt.vu.mif.lino2234.viewModels.AdvertisementsVm')">
+    <xh:div sclass="container">
+      <n:h1>${vm.board.title} advertisements</n:h1>
+      <xh:div sclass="row">
+        <grid>
+          <columns>
+            <column label="Title" />
+            <column label="Price" />
+            <column label="Published" />
+            <column label="Author" />
+          </columns>
+          <rows>
+            <sh:forEach items="@load(vm.advertisements)" var="ad">
+              <row onClick="@command('doSelect', ad=ad)">
+                <label value="@load(ad.title)" />
+                <label value="@load(ad.price)" />
+                <label value="@load(ad.publicationTime)" />
+                <label value="@load(ad.author.username)" />
+              </row>
+            </sh:forEach>
+          </rows>
+        </grid>
+        <button label="Publish" onClick="@command('doAdd')"
+                width="150px" height="30px" />
+      </xh:div>
+      <sh:if test="@load(not empty vm.advertisements and not empty vm.selectedAd)">
+        <xh:div sclass="row">
+          <n:h4>Selected advertisement</n:h4>
+          <grid width="50%">
+            <columns>
+              <column label="@load(vm.selectedAd.title)"/>
+              <column/>
+            </columns>
+            <rows>
+              <row>
+                <label value="Published: " />
+                <label value="@load(vm.selectedAd.publicationTime)" />
+              </row>
+              <row>
+                <label value="Author: " />
+                <label value="@load(vm.selectedAd.author.username)" />
+              </row>
+              <row>
+                <label value="Description: " />
+                <label value="@load(vm.selectedAd.description)" />
+              </row>
+              <row>
+                <label value="Price: " />
+                <label value="@load(vm.selectedAd.price)" />
+              </row>
+            </rows>
+          </grid>
+        </xh:div>
+      </sh:if>
+      <sh:if test="@load(vm.adding)">
+        <xh:div sclass="row">
+          <n:h4>New advertisement</n:h4>
+          <grid width="50%" form="@id('ad') @load(vm.newAd) @save(vm.newAd, before='doSave')">
+            <columns>
+              <column label="Property" />
+              <column label="Value" />
+            </columns>
+            <rows>
+              <row>
+                <label value="Title" width="150px" />
+                <hlayout>
+                  <textbox value="@bind(ad.title)"
+                           width="150px" constraint="no empty"/>
+                </hlayout>
+              </row>
+              <row>
+                <label value="description" width="150px" />
+                <hlayout>
+                  <textbox value="@bind(ad.description)"
+                           width="150px" constraint="no empty"/>
+                </hlayout>
+              </row>
+              <row>
+                <label value="price" width="150px" />
+                <hlayout>
+                  <decimalbox value="@bind(ad.price)"
+                           width="150px"/>
+                </hlayout>
+              </row>
+            </rows>
+          </grid>
+          <button label="Submit" onClick="@command('doSave')"
+                  width="100px" height="30px" />
+        </xh:div>
+      </sh:if>
+    </xh:div>
+  </xh:div>
+</zk>

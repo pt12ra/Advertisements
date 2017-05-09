@@ -1,9 +1,13 @@
 package lt.vu.mif.lino2234.bo.impl;
 
+import lt.vu.mif.lino2234.bo.AdvertisementBo;
 import lt.vu.mif.lino2234.bo.BoardBo;
+import lt.vu.mif.lino2234.bo.UserBo;
+import lt.vu.mif.lino2234.dao.AdvertisementDao;
 import lt.vu.mif.lino2234.dao.BoardDao;
 import lt.vu.mif.lino2234.dao.UserDao;
 import lt.vu.mif.lino2234.entities.Board;
+import lt.vu.mif.lino2234.views.AdvertisementView;
 import lt.vu.mif.lino2234.views.BoardView;
 import lt.vu.mif.lino2234.views.UserView;
 
@@ -24,6 +28,12 @@ public class BoardBoImpl implements BoardBo {
     private BoardDao boardDao;
     @Inject
     private UserDao userDao;
+    @Inject
+    private AdvertisementDao advertisementDao;
+    @Inject
+    private UserBo userBo;
+    @Inject
+    private AdvertisementBo advertisementBo;
 
     @Override
     @Transactional
@@ -34,13 +44,17 @@ public class BoardBoImpl implements BoardBo {
         entity.setId(view.getId());
         entity.setTitle(view.getTitle());
         entity.setAdvertisements(new ArrayList<>());
+        if (view.getAdvertisements() != null) {
+            for(AdvertisementView advertisementView : view.getAdvertisements()) {
+                entity.getAdvertisements().add(advertisementDao.findOne(advertisementView.getId()));
+            }
+        }
         entity.setSubscribers(new ArrayList<>());
         if (view.getSubscribers() != null) {
             for(UserView userView : view.getSubscribers()) {
                 entity.getSubscribers().add(userDao.findOne(userView.getId()));
             }
         }
-
         return buildView(entity.getId() == null ? boardDao.save(entity) : boardDao.update(entity));
     }
 

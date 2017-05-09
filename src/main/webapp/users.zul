@@ -40,7 +40,7 @@
                 <label value="Username" width="150px" />
                 <hlayout>
                   <textbox value="@bind(user.username)"
-                           width="150px"/>
+                           width="150px" constraint="no empty"/>
                 </hlayout>
               </row>
               <row>
